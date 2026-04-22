@@ -1,98 +1,247 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { BarlowSemiCondensed_600SemiBold } from "@expo-google-fonts/barlow-semi-condensed";
+import { useFonts } from "@expo-google-fonts/barlow-semi-condensed/useFonts";
+import { useRouter } from "expo-router";
+import {
+    ActivityIndicator,
+    Image,
+    ImageBackground,
+    Linking,
+    ScrollView,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import "../globals.css";
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+export default function Index() {
+  const router = useRouter(); // Get the router instance
+  let [fontsLoaded] = useFonts({
+    BarlowSemiCondensed_600SemiBold,
+  });
 
-export default function HomeScreen() {
+  if (!fontsLoaded) {
+    return (
+      <SafeAreaProvider className="flex-1 justify-center items-center bg-white">
+        <SafeAreaView className="flex-row bg-[#0b0b49] h-28 z-30 pt-28 w-full">
+          <ActivityIndicator size="large" color="#0b0b49" />
+        </SafeAreaView>
+      </SafeAreaProvider>
+    );
+  }
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
+    <SafeAreaProvider className="flex-col">
+      <SafeAreaView className="flex-row bg-[#0b0b49] h-28 z-10 pt-28">
         <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
+          source={require("@/assets/images/whs-logo.png")}
+          className="w-32 h-32 relative bottom-28 left-11"
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
+        <SafeAreaView className="w-48 h-28 bottom-36 left-14 items-start">
+          <Text className="text-white font-barlow-semibold">MY VOICE</Text>
+          <Text className="text-white ml-5 font-barlow-semibold"> MY CHOICE</Text>
+          <Text className="text-white ml-12 font-barlow-semibold"> MY FUTURE</Text>
+        </SafeAreaView>
+      </SafeAreaView>
+      <View className="grow justify-center items-center bg-white">
+        <ScrollView className="self-center">
+          <ImageBackground
+            source={require("@/assets/images/bg-home.png")}
+            className="flex-row flex-wrap justify-center items-start w-[100vw] h-[100vh]"
+          >
+            <Text className="z-20 font-barlow-semibold text-2xl text-whs-blue w-full text-center p-5 pb-0">
+              WELCOME!
+            </Text>
+            <TouchableOpacity
+              className="w-24 h-min mx-3 my-3 justify-center pt-5"
+              onPress={() => router.push("/vision")}
+            >
+              <Image
+                source={require("@/assets/images/school.png")}
+                style={{
+                  tintColor: "#0b0b49",
+                }}
+                className="size-14 self-center"
               />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+              <Text className="text-center font-barlow-semibold text-[#0b0b49] text-xs">
+                Mission & Vision
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="w-24 h-min mx-3 my-3 justify-center pt-5"
+              onPress={() => router.push("/calender")}
+            >
+              <Image
+                source={require("@/assets/images/calender.png")}
+                style={{
+                  tintColor: "#0b0b49",
+                }}
+                className="size-14 self-center"
+              />
+              <Text className="text-center font-barlow-semibold text-[#0b0b49] text-xs">
+                Calendar
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="w-24 h-min mx-3 my-3 justify-center pt-5"
+              onPress={() => router.push("/news")}
+            >
+              <Image
+                source={require("@/assets/images/news.png")}
+                style={{
+                  tintColor: "#0b0b49",
+                }}
+                className="size-14 self-center"
+              />
+              <Text className="text-center font-barlow-semibold text-[#0b0b49] text-xs">
+                News
+              </Text>
+            </TouchableOpacity>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+            <TouchableOpacity
+              className="w-24 h-min mx-3 my-3 justify-center"
+              onPress={() => router.push("/bell")}
+            >
+              <Image
+                source={require("@/assets/images/bell.png")}
+                style={{
+                  tintColor: "#0b0b49",
+                }}
+                className="size-14 self-center"
+              />
+              <Text className="text-center font-barlow-semibold text-[#0b0b49] text-xs">
+                Bell Schedule
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="w-24 h-min mx-3 my-3 justify-center"
+              onPress={() => router.push("/map")}
+            >
+              <Image
+                source={require("@/assets/images/map-icon.png")}
+                style={{
+                  tintColor: "#0b0b49",
+                }}
+                className="size-14 self-center"
+              />
+              <Text className="text-center font-barlow-semibold text-[#0b0b49] text-xs">
+                Campus Map
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="w-24 h-min mx-3 my-3 justify-center"
+              onPress={() => router.push("/contacts")}
+            >
+              <Image
+                source={require("@/assets/images/phone.png")}
+                style={{
+                  tintColor: "#0b0b49",
+                }}
+                className="size-14 self-center"
+              />
+              <Text className="text-center font-barlow-semibold text-[#0b0b49] text-xs">
+                Contacts
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              className="w-24 h-min mx-3 my-3 justify-center"
+              onPress={() => router.push("/student")}
+            >
+              <Image
+                source={require("@/assets/images/user.png")}
+                style={{
+                  tintColor: "#0b0b49",
+                }}
+                className="size-14 self-center"
+              />
+              <Text className="text-center font-barlow-semibold text-[#0b0b49] text-xs">
+                Student
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="w-24 h-min mx-3 my-3 justify-center"
+              onPress={() => router.push("/registrar")}
+            >
+              <Image
+                source={require("@/assets/images/registrar.png")}
+                style={{
+                  tintColor: "#0b0b49",
+                }}
+                className="size-14 self-center"
+              />
+              <Text className="text-center font-barlow-semibold text-[#0b0b49] text-xs">
+                Registrar
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="w-24 h-min mx-3 my-3 justify-center"
+              onPress={() => {
+                Linking.openURL(
+                  "https://hawaii.infinitecampus.org/campus/hawaii.jsp",
+                );
+              }}
+            >
+              <Image
+                source={require("@/assets/images/if.png")}
+                style={{
+                  tintColor: "#0b0b49",
+                }}
+                className="size-14 self-center"
+              />
+              <Text className="text-center font-barlow-semibold text-[#0b0b49] text-xs">
+                Infinite Campus
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              className="w-24 h-min mx-3 my-3 justify-center"
+              onPress={() => router.push("/athletics")}
+            >
+              <Image
+                source={require("@/assets/images/ball.png")}
+                style={{
+                  tintColor: "#0b0b49",
+                }}
+                className="size-14 self-center"
+              />
+              <Text className="text-center font-barlow-semibold text-[#0b0b49] text-xs">
+                Athletics
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="w-24 h-min mx-3 my-3 justify-center"
+              onPress={() => router.push("/cafe")}
+            >
+              <Image
+                source={require("@/assets/images/cafe.png")}
+                style={{
+                  tintColor: "#0b0b49",
+                }}
+                className="size-14 self-center"
+              />
+              <Text className="text-center font-barlow-semibold text-[#0b0b49] text-xs">
+                Cafeteria
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="w-24 h-min mx-3 my-3 justify-center"
+              onPress={() => router.push("/author")}
+            >
+              <Image
+                source={require("@/assets/images/author.png")}
+                style={{
+                  tintColor: "#0b0b49",
+                }}
+                className="size-14 self-center"
+              />
+              <Text className="text-center font-barlow-semibold text-[#0b0b49] text-xs">
+                Authors
+              </Text>
+            </TouchableOpacity>
+          </ImageBackground>
+        </ScrollView>
+      </View>
+    </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
